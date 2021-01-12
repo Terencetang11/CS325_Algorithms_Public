@@ -1,33 +1,45 @@
+# Author: Terence Tang
+# Date: 1/11/2021
+# Description:  A program that takes an input file named data.txt and parses each line of integers into a sorted list
+#               using the insertion sort method.  For each input line of integers, the first int contains the length of
+#               the set of numbers in the line.
+#               Program outputs the resulting sorted lines of int in a file named insert.out
+
+
 def insertsort():
     input = []                                              # list to manage all lines from input file
-    with open("data.txt",'r') as input_file:
-        for line in input_file:                             # scans each line within input file
-            line = list(map(int, line.split()))             # converts each line of str to a list of ints
-            input.append(line)                              # appends each int set to inputs list
-    input_file.close()
+    try:
+        with open("data.txt",'r') as input_file:
+            for line in input_file:                             # scans each line within input file
+                line = list(map(int, line.split()))             # converts each line of str to a list of ints
+                input.append(line)                              # appends each int set to inputs list
+        input_file.close()
 
-    # creates output file
-    with open("insert.out", 'w') as output_file:            # opens the output file we will write to
+        # creates output file
+        with open("insert.out", 'w') as output_file:            # opens the output file we will write to
 
-        for line in input:                                  # for each int set from the inputs list
-            length = line[0]                                # removes first int as length of set and updates list
-            line = line[1:]
+            for line in input:                                  # for each int set from the inputs list
+                length = line[0]                                # removes first int as length of set and updates list
+                line = line[1:]
 
-            line = insertion_sort(line)                     # sorts set w/ insertion sort method
+                line = insertion_sort(line)                     # sorts set w/ insertion sort method
 
-            # convert resulting line to string
-            result = ''                                     # initializes output string
-            count = 1
-            for num in line:
-                result += str(num)                          # converts each int in set to str value, adds to results
-                if count < length:                         # fence posting statement for space char
-                    result += " "
-                count += 1
+                # convert resulting line to string
+                result = ''                                     # initializes output string
+                count = 1
+                for num in line:
+                    result += str(num)                          # converts each int in set to str value, adds to results
+                    if count < length:                         # fence posting statement for space char
+                        result += " "
+                    count += 1
 
-            # append line to output_file
-            output_file.write(result)                       # appends resulting string line to output file
-            output_file.write('\n')                         # adds a new line char for next set
+                # append line to output_file
+                output_file.write(result)                       # appends resulting string line to output file
+                output_file.write('\n')                         # adds a new line char for next set
 
+    # throws a descriptive exception if file is not found
+    except FileNotFoundError:
+        print("The data.txt file was not found.")
 
 def insertion_sort(input):
     for index in range(1, len(input)):                      # iterates through list of items
